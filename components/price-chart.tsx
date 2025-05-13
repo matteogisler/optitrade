@@ -15,7 +15,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { CoinChartData } from '@/lib/types';
-import { formatPrice } from '@/lib/api';
+import { formatPrice } from '@/lib/formatters';
 
 interface PriceChartProps {
   coinId: string;

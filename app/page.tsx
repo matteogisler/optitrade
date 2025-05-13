@@ -7,7 +7,6 @@ import { MarketCard, MarketCardSkeleton } from '@/components/market-card';
 import { PriceChart } from '@/components/price-chart';
 import { OrderPanel } from '@/components/order-panel';
 import { useTopCoins, useSelectedCoin } from '@/hooks/use-coins';
-import { formatNumber } from '@/lib/api';
 
 export default function Dashboard() {
   const searchParams = useSearchParams();

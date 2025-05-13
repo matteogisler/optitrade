@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { formatPercentage, formatPrice } from '@/lib/api';
+import { formatPercentage, formatPrice } from '@/lib/formatters';
 import { Coin } from '@/lib/types';
 import { Skeleton } from '@/components/ui/skeleton';
 

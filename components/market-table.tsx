@@ -24,7 +24,7 @@ import { Button } from '@/components/ui/button';
 import { Search } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Coin } from '@/lib/types';
-import { formatPercentage, formatPrice, formatNumber } from '@/lib/api';
+import { formatPercentage, formatPrice, formatNumber } from '@/lib/formatters';
 
 interface MarketTableProps {
   coins?: Coin[];

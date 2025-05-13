@@ -35,7 +35,7 @@ import {
 } from '@/components/ui/dialog';
 import { useTopCoins } from '@/hooks/use-coins';
 import { useOrderHistory } from '@/hooks/use-orders';
-import { formatPrice } from '@/lib/api';
+import { formatPrice } from '@/lib/formatters';
 import { OrderType } from '@/lib/types';
 
 interface OrderPanelProps {
