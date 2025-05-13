@@ -43,7 +43,7 @@ export function Navbar() {
         isScrolled ? 'bg-background/95 backdrop-blur-sm border-b' : 'bg-transparent'
       }`}
     >
-      <div className="flex items-center justify-between h-16 p-4">
+      <div className="flex items-center justify-between h-16 p-8">
         <Link href="/" className="flex items-center space-x-2">
           <span className="text-2xl font-bold bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent">
             OptiTrade
