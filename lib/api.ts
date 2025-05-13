@@ -1,12 +1,11 @@
 // API functions for fetching crypto data from CoinGecko
-
 const API_BASE_URL = 'https://api.coingecko.com/api/v3';
 
 // Get top coins by market cap
 export async function getTopCoins(count: number = 10, page: number = 1): Promise<any> {
   const response = await fetch(
     `${API_BASE_URL}/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=${count}&page=${page}&sparkline=true&price_change_percentage=24h,7d`,
-    { next: { revalidate: 60 } } // Revalidate every 60 seconds
+    { next: { revalidate: 20 } } // Revalidate every 20 seconds
   );
   
   if (!response.ok) {

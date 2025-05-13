@@ -8,7 +8,7 @@ export function Footer() {
           &copy; {new Date().getFullYear()} OptiTrade. All rights reserved. This is a mock trading platform.
         </p>
         <a
-          href="https://github.com"
+          href="https://github.com/matteogisler"
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center text-muted-foreground transition-colors hover:text-foreground"

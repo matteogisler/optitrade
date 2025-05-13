@@ -52,7 +52,7 @@ export function MarketTable({ coins, isLoading }: MarketTableProps) {
   
   // Handle navigation to dashboard with selected coin
   const handleCoinSelect = (coinId: string) => {
-    router.push(`/dashboard?coin=${coinId}`);
+    router.push(`/?coin=${coinId}`);
   };
   
   // Generate page numbers for pagination

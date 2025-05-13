@@ -32,9 +32,8 @@ export function Navbar() {
   }, []);
   
   const navLinks = [
-    { name: 'Dashboard', href: '/dashboard', icon: <LineChart className="size-4 mr-2" /> },
+    { name: 'Dashboard', href: '/', icon: <LineChart className="size-4 mr-2" /> },
     { name: 'Market', href: '/market', icon: <BarChart4 className="size-4 mr-2" /> },
-    { name: 'Profile', href: '/profile', icon: <User className="size-4 mr-2" /> },
   ];
 
   return (
@@ -73,12 +72,6 @@ export function Navbar() {
           </NavigationMenu>
 
           <ThemeToggle />
-          
-          {pathname === '/' && (
-            <Button asChild size="sm">
-              <Link href="/dashboard">Get Started</Link>
-            </Button>
-          )}
         </nav>
 
         {/* Mobile Navigation */}
@@ -108,12 +101,6 @@ export function Navbar() {
                     {link.name}
                   </Link>
                 ))}
-                
-                {pathname === '/' && (
-                  <Button asChild className="mt-4 w-full">
-                    <Link href="/dashboard">Get Started</Link>
-                  </Button>
-                )}
               </nav>
             </SheetContent>
           </Sheet>

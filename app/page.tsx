@@ -1,105 +1,130 @@
-import Link from 'next/link';
-import { ArrowRight, Wallet, TrendingUp, LineChart, Shield } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+'use client';
 
-export default function Home() {
+import { useEffect } from 'react';
+import { useSearchParams, useRouter } from 'next/navigation';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { MarketCard, MarketCardSkeleton } from '@/components/market-card';
+import { PriceChart } from '@/components/price-chart';
+import { OrderPanel } from '@/components/order-panel';
+import { useTopCoins, useSelectedCoin } from '@/hooks/use-coins';
+import { formatNumber } from '@/lib/api';
+
+export default function Dashboard() {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const coinParam = searchParams.get('coin');
+  
+  const { coins, isLoading: isLoadingCoins } = useTopCoins(6);
+  const { 
+    selectedCoinId, 
+    setSelectedCoinId, 
+    coinDetails, 
+    chartData, 
+    isLoading: isLoadingSelected 
+  } = useSelectedCoin(coinParam || 'bitcoin');
+  
+  // Update URL when selected coin changes
+  useEffect(() => {
+    if (selectedCoinId && selectedCoinId !== 'bitcoin') {
+      router.push(`/?coin=${selectedCoinId}`, { scroll: false });
+    } else if (selectedCoinId === 'bitcoin' && coinParam) {
+      router.push('/', { scroll: false });
+    }
+  }, [selectedCoinId, router, coinParam]);
+
+  // Handle selection of a coin from the market snapshot
+  const handleCoinSelect = (coinId: string) => {
+    setSelectedCoinId(coinId);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
-    <div className="flex flex-col min-h-100vh">
-      {/* Hero Section */}
-      <section className="py-20 px-4 sm:px-6 flex flex-col items-center justify-center bg-gradient-to-b from-background to-secondary/20 text-center">
-        <div className="max-w-4xl mx-auto space-y-6">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight">
-            Your clean mock{' '}
-            <span className="bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent">
-              trading dashboard
-            </span>
-          </h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Experience crypto trading without the risk. OptiTrade provides a realistic trading environment with live market data and visual tools.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
-            <Button asChild size="lg" className="font-semibold">
-              <Link href="/dashboard">
-                Get Started <ArrowRight className="ml-2 h-5 w-5" />
-              </Link>
-            </Button>
-            <Button asChild variant="outline" size="lg" className="font-semibold">
-              <Link href="/market">
-                View Market
-              </Link>
-            </Button>
-          </div>
-        </div>
-      </section>
-
-      {/* Features Section */}
-      <section className="py-20 px-4 sm:px-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold">Key Features</h2>
-            <p className="text-muted-foreground mt-4 max-w-2xl mx-auto">
-              OptiTrade delivers a comprehensive trading experience with tools designed for both beginners and advanced users.
+    <div className="py-8 space-y-8 p-8">
+      <div>
+        <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
+        <p className="text-muted-foreground">
+          Monitor live cryptocurrency prices and trade without risk.
+        </p>
+      </div>
+      
+      {/* Market Overview Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-base font-medium">Global Market Cap</CardTitle>
+            <CardDescription>Total value of all cryptocurrencies</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">$2.41T</div>
+            <p className="text-xs text-green-500 flex items-center mt-1">
+              +2.4% <span className="text-muted-foreground ml-2">vs yesterday</span>
             </p>
-          </div>
+          </CardContent>
+        </Card>
+        
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-base font-medium">24h Volume</CardTitle>
+            <CardDescription>Total trading volume across all markets</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">$84.7B</div>
+            <p className="text-xs text-red-500 flex items-center mt-1">
+              -1.2% <span className="text-muted-foreground ml-2">vs yesterday</span>
+            </p>
+          </CardContent>
+        </Card>
+        
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-base font-medium">BTC Dominance</CardTitle>
+            <CardDescription>Bitcoin's share of total market cap</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">48.2%</div>
+            <p className="text-xs text-green-500 flex items-center mt-1">
+              +0.3% <span className="text-muted-foreground ml-2">vs yesterday</span>
+            </p>
+          </CardContent>
+        </Card>
+      </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="bg-card rounded-lg p-6 shadow-sm border hover:shadow-md transition-all">
-              <div className="h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
-                <LineChart className="h-6 w-6 text-primary" />
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Live Market Data</h3>
-              <p className="text-muted-foreground">
-                Real-time cryptocurrency prices and market statistics updated every minute.
-              </p>
-            </div>
-
-            <div className="bg-card rounded-lg p-6 shadow-sm border hover:shadow-md transition-all">
-              <div className="h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
-                <TrendingUp className="h-6 w-6 text-primary" />
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Visual Analytics</h3>
-              <p className="text-muted-foreground">
-                Interactive charts and performance metrics to track market trends and movements.
-              </p>
-            </div>
-
-            <div className="bg-card rounded-lg p-6 shadow-sm border hover:shadow-md transition-all">
-              <div className="h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
-                <Wallet className="h-6 w-6 text-primary" />
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Mock Trading</h3>
-              <p className="text-muted-foreground">
-                Practice buying and selling cryptocurrencies with our simulated trading environment.
-              </p>
-            </div>
-
-            <div className="bg-card rounded-lg p-6 shadow-sm border hover:shadow-md transition-all">
-              <div className="h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
-                <Shield className="h-6 w-6 text-primary" />
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Risk-Free</h3>
-              <p className="text-muted-foreground">
-                Learn and experiment with trading strategies without risking real money.
-              </p>
-            </div>
-          </div>
+      {/* Main Content - Chart and Order Panel */}
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        <PriceChart 
+          coinId={selectedCoinId}
+          coinName={coinDetails?.name || "Loading..."}
+          chartData={chartData}
+          isLoading={isLoadingSelected}
+        />
+        
+        <OrderPanel 
+          selectedCoinId={selectedCoinId}
+          onSelectCoin={setSelectedCoinId}
+        />
+      </div>
+      
+      {/* Market Snapshot */}
+      <div className="space-y-4">
+        <h2 className="text-xl font-semibold tracking-tight">Market Snapshot</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+          {isLoadingCoins ? (
+            // Show skeletons while loading
+            Array(6).fill(0).map((_, index) => (
+              <MarketCardSkeleton key={index} />
+            ))
+          ) : (
+            // Show market cards once loaded
+            coins?.map((coin) => (
+              <MarketCard 
+                key={coin.id} 
+                coin={coin}
+                onClick={() => handleCoinSelect(coin.id)}
+              />
+            ))
+          )}
         </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-20 px-4 sm:px-6 bg-secondary/50 mt-auto">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-4">Ready to start trading?</h2>
-          <p className="text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Jump into the world of cryptocurrency trading with our intuitive dashboard and real-time market data.
-          </p>
-          <Button asChild size="lg">
-            <Link href="/dashboard">
-              Launch Dashboard <ArrowRight className="ml-2 h-5 w-5" />
-            </Link>
-          </Button>
-        </div>
-      </section>
+      </div>
     </div>
   );
 }
