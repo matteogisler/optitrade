@@ -2,7 +2,9 @@
 
 A clean and modern cryptocurrency trading dashboard built with Next.js 14, TypeScript, and Tailwind CSS. OptiTrade provides a realistic mock trading environment with live market data and visual tools.
 
+<div align="center">
 <img src="https://images.pexels.com/photos/6771985/pexels-photo-6771985.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="drawing" align="center" width="400"/>
+</div>
 
 ## Features
 
